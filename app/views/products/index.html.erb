@@ -8,6 +8,7 @@
       <th>Stripe Id</th>
       <th>Price Id</th>
       <th>Name</th>
+      <th>Currency</th>
       <th>Price</th>
       <th>Sales count</th>
       <th>Shopping Cart</th>
@@ -21,7 +22,8 @@
         <td><%= product.stripe_product_id %></td>
         <td><%= product.stripe_price_id %></td>
         <td><%= product.name %></td>
-        <td><%= number_to_currency product.price, unit: '₹ ' %></td>
+        <td><%= product.currency %></td>
+        <td><%= product.price %></td>
         <td><%= product.sales_count %></td>
         <td>
           <% if @cart.include?(product) %>
