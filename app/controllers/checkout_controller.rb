@@ -6,7 +6,7 @@ class CheckoutController < ApplicationController
             line_items: [{
                 name: product.name,
                 amount: product.price * 100,
-                currency: 'usd',
+                currency: 'inr',
                 quantity: 1,
             }],
             mode: 'payment',

@@ -1,20 +1,32 @@
 class WebhooksController < ApplicationController
-    # def create
-    #     product = Product.find(params[:id])
-    #     @session = Stripe::Checkout::Session.create({
-    #         payment_method_types: ['card'],
-    #         line_items: [{
-    #             name: product.name,
-    #             amount: product.price * 100,
-    #             currency: 'usd',
-    #             quantity: 1,
-    #         }],
-    #         mode: 'payment',
-    #         success_url: root_url,
-    #         cancel_url: root_url
-    #     })
-    #     respond_to do |format|
-    #         format.js
-    #     end
-    #   end
+    skip_before_action :verify_authenticity_token
+
+    def create
+        payload = request.body.read
+        sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+        event = nil
+
+        begin
+            event = Stripe::Webhook.construct_event(
+                payload, sig_header, Rails.application.credentials[:stripe][:webhook]                
+            )
+        rescue JSON::ParserError => e
+            status 400
+            return
+        rescue Stripe::SignatureVerificationError => e
+            puts 'Signature error'
+            puts e
+            return
+        end
+
+        # handle the event
+        case event.type
+        when 'checkout.session.completed'
+            session = event.data.object
+            @product = Product.find_by(price: session.amount_total / 100)
+            @product.increment!(:sales_count)
+        end
+
+        render json: { message: 'success' }
+    end
 end
