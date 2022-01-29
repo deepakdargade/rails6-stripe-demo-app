@@ -1,5 +1,13 @@
 <h1>payment successful</h1>
 
+<hr/>
+
+Status: <%= @session.payment_status %><br/>
+Amount Paid: <%= @session.amount_total / 100 %><br/>
+Currency: <%= @session.currency %><br/>
+
+<hr/>
+
 <% @line_items.each do |line_item| %>
     Stripe Price: <%= line_item.price %><hr/>
     Stripe Product: <%= line_item.price.product %><hr/>
