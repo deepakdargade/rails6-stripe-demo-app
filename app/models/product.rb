@@ -11,7 +11,7 @@ class Product < ApplicationRecord
         price = Stripe::Price.create(
             product: product.id, 
             unit_amount: self.price * 100, 
-            currency: 'usd'
+            currency: 'inr'
         )
         update(stripe_product_id: product.id, stripe_price_id: price.id)
     end

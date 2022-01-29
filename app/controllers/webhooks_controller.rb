@@ -24,8 +24,15 @@ class WebhooksController < ApplicationController
         case event.type
         when 'checkout.session.completed'
             session = event.data.object
-            @product = Product.find_by(price: session.amount_total / 100)
-            @product.increment!(:sales_count)
+            session = Stripe::Checkout::Session.retrieve({
+                id: session.id,
+                expand: ["line_items"]
+            })
+            @line_items = session.line_items
+            @line_items.each do |line_item|
+                product = Product.find_by(stripe_product_id: line_item.price.product)
+                product.increment!(:sales_count)
+            end
         end
 
         render json: { message: 'success' }

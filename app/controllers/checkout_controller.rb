@@ -26,11 +26,6 @@ class CheckoutController < ApplicationController
             expand: ["line_items"]
         })
         @line_items = session.line_items
-        @line_items.each do |line_item|
-            product = Product.find_by(stripe_product_id: line_item.price.product)
-            product.increment!(:sales_count)
-        end
-
     end
 
     def cancel
