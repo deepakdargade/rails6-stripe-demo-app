@@ -5,6 +5,7 @@ class CheckoutController < ApplicationController
             customer: current_user.stripe_customer_id,
             payment_method_types: ['card'],
             line_items: @cart.collect{|i| i.to_builder.attributes! },
+            allow_promotion_codes: true,
             # line_items: [{
             #     # name: product.name,
             #     # amount: product.price * 100,
