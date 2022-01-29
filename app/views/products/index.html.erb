@@ -23,7 +23,7 @@
         <td><%= product.stripe_price_id %></td>
         <td><%= product.name %></td>
         <td><%= product.currency %></td>
-        <td><%= product.price %></td>
+        <td><%= product.price_cents %></td>
         <td><%= product.sales_count %></td>
         <td>
           <% if @cart.include?(product) %>

@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
 
+    monetize :price, as: :price_cents
+
     def to_s
         name
     end
@@ -17,7 +19,7 @@ class Product < ApplicationRecord
         )
         price = Stripe::Price.create(
             product: product.id, 
-            unit_amount: self.price * 100, 
+            unit_amount: self.price, 
             currency: self.currency
         )
         update(stripe_product_id: product.id, stripe_price_id: price.id)
@@ -29,7 +31,7 @@ class Product < ApplicationRecord
     def create_and_assign_a_new_price
         price = Stripe::Price.create(
             product: self.stripe_product_id, 
-            unit_amount: self.price * 100, 
+            unit_amount: self.price, 
             currency: self.currency
         )
         update(stripe_price_id: price.id)
