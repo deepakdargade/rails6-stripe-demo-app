@@ -1,9 +1,6 @@
-<%# @session = Stripe::Checkout::Session.retrieve(params[:session_id]) %>
-<%#= @session.payment_intent %>
-<%#= Stripe::PaymentIntent.retrieve(@session.payment_intent) %>
+<h1>payment successful</h1>
 
-<% @session_with_expand.each do |line_item| %>
-    <%= line_item %>
-    <%#= line_item.price.id %>
-    <%#= line_item.price.product %>
+<% @line_items.each do |line_item| %>
+    Stripe Price: <%= line_item.price %><hr/>
+    Stripe Product: <%= line_item.price.product %><hr/>
 <% end %>
