@@ -12,7 +12,17 @@
 
   <body>
     <%= link_to "Products", products_path %>
+    <% if current_user %>
+      <%= link_to current_user.email, edit_user_registration_path %>
+      <%= link_to 'log out', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to 'log in', new_user_session_path %>
+      <%= link_to 'register', new_user_registration_path %>
+    <% end %>
     <hr/>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
     <%= yield %>
   </body>
