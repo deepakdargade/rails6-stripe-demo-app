@@ -8,11 +8,11 @@ class Product < ApplicationRecord
         product = Stripe::Product.create(
             name: name
         )
-        sprice = Stripe::Price.create(
+        price = Stripe::Price.create(
             product: product.id, 
-            unit_amount: price * 100, 
+            unit_amount: self.price * 100, 
             currency: 'usd'
         )
-        update(stripe_product_id: product.id)
+        update(stripe_product_id: product.id, stripe_price_id: price.id)
     end
 end

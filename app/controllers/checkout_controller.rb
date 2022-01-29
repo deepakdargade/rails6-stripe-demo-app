@@ -5,9 +5,10 @@ class CheckoutController < ApplicationController
             customer: current_user.stripe_customer_id,
             payment_method_types: ['card'],
             line_items: [{
-                name: product.name,
-                amount: product.price * 100,
-                currency: 'inr',
+                # name: product.name,
+                # amount: product.price * 100,
+                # currency: 'inr',
+                price: product.stripe_price_id,
                 quantity: 1,
             }],
             mode: 'payment',
